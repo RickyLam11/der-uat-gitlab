@@ -13,13 +13,13 @@ echo-commit:
 pull-latest:
     stage: deploy
     script:
-        - ssh der-gitlab_uat@23.99.121.246 "cd /var/www/der-gitlab/der-uat-gitlab.fimmickapps.com/dermacept && git fetch --all && git checkout master && exit"
+        - ssh der-gitlab_uat@23.99.121.246 "cd /var/www/der-gitlab/der-uat-gitlab.fimmickapps.com/dermacept && git pull --all && git checkout master && exit"
     when: manual
     
 pull-this:
     stage: deploy
     script:
-        - ssh der-gitlab_uat@23.99.121.246 "cd /var/www/der-gitlab/der-uat-gitlab.fimmickapps.com/dermacept && git fetch --all && git checkout $CI_COMMIT_SHORT_SHA && exit"
+        - ssh der-gitlab_uat@23.99.121.246 "cd /var/www/der-gitlab/der-uat-gitlab.fimmickapps.com/dermacept && git pull --all && git checkout $CI_COMMIT_SHORT_SHA && exit"
     when: manual
     
 # pull-commit:
