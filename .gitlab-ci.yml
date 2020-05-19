@@ -9,6 +9,12 @@ echo-commit:
     stage: test
     script:
         - printf "This is Test...\nComplete test!!"
+
+echo-commit:
+    stage: test
+    script:
+        - printf "This is Test 2 with variable $$str=$str...\nComplete test!!"
+    when: manual
     
 pull-latest:
     stage: deploy
