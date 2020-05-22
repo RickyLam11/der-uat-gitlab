@@ -1,0 +1,18 @@
+stages:
+  - triggers
+
+trigger_uat:
+  stage: triggers
+  trigger:
+    include: .gitlab-ci.staging.yml
+  rules:
+    - if: $CI_COMMIT_BRANCH == "staging"
+      when: always
+
+trigger_prd:
+  stage: triggers
+  trigger:
+    include: .gitlab-ci.production.yml
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master"
+      when: always
