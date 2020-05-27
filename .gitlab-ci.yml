@@ -24,19 +24,19 @@ build_prd:
 
 test_staging:
     stage: test
-    needs: build_staging
+    needs: ["build_staging"]
     script:
         - echo "Test staging"
 
 test_prd:
     stage: test
-    needs: build_prd
+    needs: ["build_prd"]
     script:
         - echo "Test production"
 
 deploy_staging:
     stage: deploy
-    needs: test_staging
+    needs: ["test_staging"]
     environment:
       name: staging
     script:
@@ -48,7 +48,7 @@ deploy_staging:
 
 deploy_prd:
     stage: deploy
-    needs: test_prd
+    needs: ["test_prd"]
     environment:
       name: production
     script:
