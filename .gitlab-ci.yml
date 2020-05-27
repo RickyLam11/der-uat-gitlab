@@ -27,7 +27,9 @@ test_staging:
     needs: [build_staging]
     script:
         - echo "Test staging"
-    when: always
+    rules:
+        - if: '$CI_COMMIT_BRANCH == "staging"'
+          when: always
 
 test_prd:
     stage: test
