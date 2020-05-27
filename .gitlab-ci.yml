@@ -28,6 +28,7 @@ deploy-prd:
   when: manual
   only:
       - master
+  allow_failure: false
 
 deploy-staging:
   stage: deploy
@@ -39,3 +40,4 @@ deploy-staging:
   when: manual
   only:
       - staging
+  allow_failure: false
