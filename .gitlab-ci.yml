@@ -12,8 +12,7 @@ build_staging:
         - echo "Build staging"
     rules:
         - if: '$CI_COMMIT_BRANCH == "staging"'
-          when: manual
-          allow_failure: false
+          when: always
 
 build_prd:
     stage: build
@@ -21,8 +20,7 @@ build_prd:
         - echo "Build production"
     rules:
         - if: '$CI_COMMIT_BRANCH == "master"'
-          when: manual
-          allow_failure: false
+          when: always
 
 test_staging:
     stage: test
@@ -41,15 +39,21 @@ deploy_staging:
     needs: ['test_staging']
     environment:
       name: staging
-      url: https://der-uat-gitlab.fimmickapps.com
     script:
         - ssh ${ACCOUNT}@${IP} "cd ${PROJECT_PATH} && git checkout ${BRANCH} && git pull && exit"
+    rules:
+        - if: '$CI_COMMIT_BRANCH == "staging"'
+          when: manual
+          allow_failure: false
 
 deploy_prd:
     stage: deploy
     needs: ['test_prd']
     environment:
       name: production
-      url: https://der-prd-gitlab.fimmickapps.com
     script:
         - ssh ${ACCOUNT}@${IP} "cd ${PROJECT_PATH} && git checkout ${BRANCH} && git pull && exit"
+    rules:
+        - if: '$CI_COMMIT_BRANCH == "master"'
+          when: manual
+          allow_failure: false
