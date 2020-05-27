@@ -25,10 +25,10 @@ deploy-prd:
     url: https://der-prd-gitlab.fimmickapps.com
   script:
       - ssh ${ACCOUNT}@${IP} "cd ${PROJECT_PATH} && git checkout ${BRANCH} && git pull && exit"
-  when: manual
-  only:
-      - master
-  allow_failure: false
+  rules:
+      - if: '$CI_COMMIT_BRANCH == "master"'
+        when: manual
+        allow_failure: false
 
 deploy-staging:
   stage: deploy
@@ -37,7 +37,7 @@ deploy-staging:
     url: https://der-uat-gitlab.fimmickapps.com
   script:
       - ssh ${ACCOUNT}@${IP} "cd ${PROJECT_PATH} && git checkout ${BRANCH} && git pull && exit"
-  when: manual
-  only:
-      - staging
-  allow_failure: false
+  rules:
+      - if: '$CI_COMMIT_BRANCH == "staging"'
+        when: manual
+        allow_failure: false
