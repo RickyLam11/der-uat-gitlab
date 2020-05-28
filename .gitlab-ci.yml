@@ -14,7 +14,7 @@ build_staging:
         - if: '$CI_COMMIT_BRANCH == "staging"'
           when: always
 
-build_prd:
+build_production:
     stage: build
     script:
         - echo "Build production"
@@ -30,7 +30,7 @@ test_staging:
         - if: '$CI_COMMIT_BRANCH == "staging"'
           when: always
 
-test_prd:
+test_production:
     stage: test
     script:
         - echo "Test production"
@@ -71,7 +71,7 @@ deploy_commit_staging:
           when: manual
           allow_failure: true
 
-deploy_prd:
+deploy_production:
     stage: deploy
     environment:
       name: production
@@ -82,7 +82,7 @@ deploy_prd:
           when: manual
           allow_failure: false
 
-deploy_this_prd:
+deploy_this_production:
     stage: deploy
     environment:
       name: production
@@ -93,10 +93,10 @@ deploy_this_prd:
           when: manual
           allow_failure: true
 
-deploy_commit_prd:
+deploy_commit_production:
     stage: deploy
     environment:
-      name: staging
+      name: production
     script:
         - ssh ${ACCOUNT}@${IP} "cd ${PROJECT_PATH} && git checkout ${BRANCH} && git pull && git checkout $TARGET_COMMIT_SHORT_SHA && exit"
     rules:
