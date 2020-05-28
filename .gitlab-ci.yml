@@ -24,19 +24,22 @@ build_prd:
 
 test_staging:
     stage: test
-    needs: ['build_staging']
     script:
         - echo "Test staging"
+    rules:
+        - if: '$CI_COMMIT_BRANCH == "staging"'
+          when: always
 
 test_prd:
     stage: test
-    needs: ['build_prd']
     script:
         - echo "Test production"
+    rules:
+        - if: '$CI_COMMIT_BRANCH == "master"'
+          when: always
 
 deploy_staging:
     stage: deploy
-    needs: ['test_staging']
     environment:
       name: staging
     script:
@@ -48,7 +51,6 @@ deploy_staging:
 
 deploy_prd:
     stage: deploy
-    needs: ['test_prd']
     environment:
       name: production
     script:
