@@ -49,12 +49,34 @@ deploy_staging:
           when: manual
           allow_failure: false
 
+rollback_staging:
+    stage: deploy
+    environment:
+      name: staging
+    script:
+        - ssh ${ACCOUNT}@${IP} "cd ${PROJECT_PATH} && git checkout ${BRANCH} && git pull && git checkout $CI_COMMIT_SHORT_SHA && exit"
+    rules:
+        - if: '$CI_COMMIT_BRANCH == "staging"'
+          when: manual
+          allow_failure: false
+
 deploy_prd:
     stage: deploy
     environment:
       name: production
     script:
         - ssh ${ACCOUNT}@${IP} "cd ${PROJECT_PATH} && git checkout ${BRANCH} && git pull && exit"
+    rules:
+        - if: '$CI_COMMIT_BRANCH == "master"'
+          when: manual
+          allow_failure: false
+
+rollback_prd:
+    stage: deploy
+    environment:
+      name: production
+    script:
+        - ssh ${ACCOUNT}@${IP} "cd ${PROJECT_PATH} && git checkout ${BRANCH} && git pull && git checkout $CI_COMMIT_SHORT_SHA && exit"
     rules:
         - if: '$CI_COMMIT_BRANCH == "master"'
           when: manual
