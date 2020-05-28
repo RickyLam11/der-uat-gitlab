@@ -93,13 +93,13 @@ deploy_this_prd:
           when: manual
           allow_failure: true
 
-deploy_commit_staging:
+deploy_commit_prd:
     stage: deploy
     environment:
       name: staging
     script:
         - ssh ${ACCOUNT}@${IP} "cd ${PROJECT_PATH} && git checkout ${BRANCH} && git pull && git checkout $TARGET_COMMIT_SHORT_SHA && exit"
     rules:
-        - if: '$CI_COMMIT_BRANCH == "staging"'
+        - if: '$CI_COMMIT_BRANCH == "master"'
           when: manual
           allow_failure: true
